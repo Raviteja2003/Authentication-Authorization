@@ -9,7 +9,7 @@ function Login()
     const navigate = useNavigate();
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:3001/login',{email,password},{
+        axios.post('http://localhost:3001/',{email,password},{
             withCredentials : true
         })
         .then(result => 
