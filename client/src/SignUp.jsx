@@ -9,11 +9,11 @@ function SignUp() {
     const navigate = useNavigate();
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:3001/register',{name,email,password})
+        axios.post('http://localhost:3001/api/auth/register',{name,email,password})
         .then(result => 
             {   
                 console.log(result)
-                navigate('/login')
+                navigate('/')
             })
         .catch(err => console.log(err))
     }

@@ -7,7 +7,7 @@ function Dashboard() {
     const navigate = useNavigate()
     axios.defaults.withCredentials = true;
     useEffect(()=> {
-        axios.get('http://localhost:3001/dashboard')
+        axios.get('http://localhost:3001//api/auth/dashboard')
         .then(res => {
             console.log("dashboad: " + res.data);
             if(res.data === "Success") {

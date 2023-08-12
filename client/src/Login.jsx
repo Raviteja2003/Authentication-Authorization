@@ -4,32 +4,37 @@ import { Link, useNavigate } from "react-router-dom";
 function Login()
 {
     axios.defaults.withCredentials=true;
-    const [email,setEmail] = useState();
-    const [password,setPassword] = useState();
+    const [email,setEmail] = useState("");
+    const [password,setPassword] = useState("");
     const navigate = useNavigate();
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        axios.post('http://localhost:3001/',{email,password},{
-            withCredentials : true
-        })
-        .then(result => 
-            {   
-                if(result.data.Status === "Success")
-                {
-                    console.log(result.data.role)
-                    if(result.data.role === 'admin')
-                    {
-                        navigate('/dashboard');
-                    }
-                    else
-                    {
-                        navigate('/');
-                    }
-                    
+        try {
+            const result = await axios.post(
+                'http://localhost:3001/api/auth/login',
+                { email, password },
+                { withCredentials: true }
+            );
+    
+           // console.log(result.data);
+    
+            if (result.data.status === true) {
+                localStorage.setItem('token', result.data.token);
+                console.log("Role:", result.data.role);
+                if (result.data.role === "admin") {
+                    console.log("Navigating to admin");
+                    navigate('/dashboard');
+                } else {
+                    console.log("Navigating to home");
+                    navigate('/home');
                 }
-            })
-        .catch(err => console.log(err))
+            }
+        } catch (err) {
+            console.log(err);
+        }
     }
+    
+    
     return (
         <div className=" flex h-screen bg-gray-500 justify-center items-center">
             <div className=" bg-white rounded p-3">
@@ -60,7 +65,7 @@ function Login()
                             onChange={(e)=> setPassword(e.target.value)}
                         />  
                     </div>
-                    <button className="bg-green-500 text-white p-2 rounded hover:bg-green-500 w-full">Login</button>
+                    <button type="submit" className="bg-green-500 text-white p-2 rounded hover:bg-green-500 w-full">Login</button>
                 </form>
                 <p className="mb-3">Did Not  Have An Account?</p>
                 <Link to='/register' className=" block text-center w-full bg-slate-400 p-2 rounded no-underline">SignUp</Link>

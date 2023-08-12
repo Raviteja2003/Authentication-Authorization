@@ -4,9 +4,9 @@ const { authenticate } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
-router.route("/").post(login)
+router.route("/login").post(login)
 router.route("/register").post(register)
-router.route("/home").get(authenticate,home)
+router.route("/").get(authenticate,home)
 router.route("/dashboard").get(authenticate,dashboard)
 
 module.exports= router;

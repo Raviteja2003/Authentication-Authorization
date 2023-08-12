@@ -21,6 +21,7 @@ const home = (req,res) => {
 }
 
  const login = async (req,res) => {
+    //console.log(req.body);
     try{
     const {email,password} = req.body;
     const isUser = await userModel.findOne({email})
@@ -35,8 +36,10 @@ const home = (req,res) => {
             res.json({ error : "Invalid credentials"});
         }
         const user = await userModel.findOne({email});
+        //console.log(user);
         const token = await jwt.sign({id:user._id},process.env.SECRETKEY)
-        res.json({status:true,token})
+        //console.log(token)
+        res.json({status:true,token,role:user.role})
     }
 }
     catch(err)
